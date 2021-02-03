@@ -1,7 +1,7 @@
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({
-    gotoTimeout: 3000,
-    waitTimeout: 10000,
+    // gotoTimeout: 10000,
+    // waitTimeout: 10000,
     show: true,
     webPreferences: {
         images: false,
@@ -14,7 +14,6 @@ var instansi = ['https://lpse.kemenag.go.id/eproc4', 'http://lpse.atrbpn.go.id/e
 
 function walkThroughPages(page, records, cb) {
     return nightmare
-        .wait(200)
         .evaluate((tahapToExclude) => {
             var data = []
             $(`#tbllelang > tbody > tr`).each(function () {
@@ -38,12 +37,14 @@ function walkThroughPages(page, records, cb) {
             return {
                 data,
                 isLastPage: `not-allowed` === $(`[aria-label="Next"]`).css('cursor'),
+                firstCode : $(`#tbllelang > tbody > tr:nth-child(1) > td.sorting_1`).html()
             }
         }, tahapToExclude)
         .then(result => {
-            let { data, isLastPage } = result
+            let { data, isLastPage, firstCode } = result
             records = records.concat(data)
-            if (isLastPage || page >= maxPageToScan)
+
+            if (isLastPage || page >= maxPageToScan || data.length <= 5)
             {
                 return cb(records)
             }
@@ -53,6 +54,11 @@ function walkThroughPages(page, records, cb) {
                 .evaluate(page => {
                     return $(`a[data-dt-idx]:contains(${page + 1})`).click()
                 }, page)
+                .wait(250)
+                .wait((firstCode, page) => {
+                    console.log('-------', page, firstCode, $(`#tbllelang > tbody > tr:nth-child(1) > td.sorting_1`).html())
+                    return $(`#tbllelang > tbody > tr:nth-child(1) > td.sorting_1`).html() !== firstCode
+                }, firstCode, page)
                 .then(() => {
                     walkThroughPages(page + 1, records, cb)
                 })
@@ -98,7 +104,6 @@ function filterData (url, scrapped, filtered, cb)
     nightmare
     .goto(dest)
     .evaluate(() => {
-        console.log('anjing', null === document.getElementById('footer'))
         if (null === document.getElementById('footer')) setTimeout(function () {
             location.reload()
         }, 5000)
@@ -127,7 +132,7 @@ function filterData (url, scrapped, filtered, cb)
         if (now < endtime)
         {
             // filtered.push(obj)
-            console.log(JSON.stringify(obj))
+            console.log(JSON.stringify(obj), ', ')
         }
 
         scrapped.shift()
@@ -135,7 +140,7 @@ function filterData (url, scrapped, filtered, cb)
         else cb (filtered)
     })
     .catch(e => {
-        console.log('---- fail to get scehdule', dest, e)
+        // console.log('---- fail to get scehdule', dest)
         scrapped.shift()
         if (scrapped.length > 0) filterData (url, scrapped, filtered, cb)
         else cb (filtered)
@@ -145,7 +150,7 @@ function filterData (url, scrapped, filtered, cb)
 // getDate('http://lpse.butonkab.go.id/eproc4/lelang/3120451/jadwal')
 
 console.time()
-walkThroughInstansies('https://lpse.kemenag.go.id/eproc4', [], data => {
+walkThroughInstansies('https://lpse.kemlu.go.id/eproc4', [], data => {
     console.timeEnd()
     nightmare.end().then()
     // console.log(JSON.stringify(data))
