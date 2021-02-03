@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap-datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/font-awesome.min.css">
+    <script type="text/javascript" src="public/js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="public/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pengadaan').DataTable({
+                "ajax": 'lpse.json'
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <table id="pengadaan" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Kode</th>
+                <th>Nama Paket</th>
+                <th>Instansi</th>
+                <th>Tahap</th>
+                <th>HPS</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+
+</html>
