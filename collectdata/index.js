@@ -16,7 +16,6 @@ var instansi = ['https://lpse.kemenag.go.id/eproc4', 'http://lpse.atrbpn.go.id/e
 
 function walkThroughInstansies(url, cb) {
     var index = instansi.indexOf(url)
-    console.log(index)
     nightmare
     .goto(`${url}/lelang`)
     .wait(`#tbllelang > tbody`)
@@ -49,8 +48,10 @@ function walkThroughPages(page, records, cb) {
                 let detail = $(this).find(`td:nth-child(2) > p:nth-child(2)`).html().split('- ')
 
                 data.push([
+                    'start date goes here',
                     $(this).find('td:eq(0)').html(),
                     $(this).find('td:eq(1)').html().replace('href="', `href="${window.location.origin}`),
+                    detail[0],
                     $(this).find('td:eq(2)').html(),
                     $(this).find('td:eq(3)').html().replace('href="', `href="${window.location.origin}`),
                     $(this).find('td:eq(4)').html()
@@ -99,7 +100,8 @@ function filterData (url, scrapped, cb)
         cb()
         return false
     }
-    let dest = `${url}/${obj[0]}/jadwal?token=${Math.random().toString(36).slice(2)}`
+    let kode = obj[1]
+    let dest = `${url}/${obj[1]}/jadwal?token=${Math.random().toString(36).slice(2)}`
     nightmare
     .goto(dest)
     .evaluate(() => {
@@ -130,6 +132,7 @@ function filterData (url, scrapped, cb)
         let now = new Date()
         if (now < endtime)
         {
+            obj[0] = start
             console.log(JSON.stringify(obj), ', ')
         }
 
@@ -146,7 +149,7 @@ function filterData (url, scrapped, cb)
 }
 
 console.time()
-walkThroughInstansies('http://lpse.kkp.go.id/eproc4', () => {
+walkThroughInstansies('https://lpse.kemenag.go.id/eproc4', () => {
     console.timeEnd()
     nightmare.end().then()
 })
