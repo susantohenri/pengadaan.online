@@ -12,7 +12,15 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#pengadaan').DataTable({
-                "ajax": 'lpse.json'
+                "ajax": 'lpse.json',
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return new Date(data).toString().split(' GMT')[0]
+                        },
+                        "targets": 0
+                    },
+                ]
             });
         });
     </script>
