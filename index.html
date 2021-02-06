@@ -7,6 +7,12 @@
     <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap-datatables.min.css">
     <link rel="stylesheet" type="text/css" href="public/bootstrap/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/css/application.css">
+    <style type="text/css">
+        table > tbody > tr > td:nth-child(1)
+        {
+            white-space: nowrap;
+        }
+    </style>
     <script type="text/javascript" src="public/js/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="public/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
@@ -16,11 +22,12 @@
                 "columnDefs": [
                     {
                         "render": function (data, type, row) {
-                            return new Date(data).toString().split(' GMT')[0]
+                            return new Date(data).toISOString().split('T')[0]
                         },
                         "targets": 0
                     },
                 ],
+                "order": [[ 0, "desc" ]],
                 "fixedHeader": true,
                 "initComplete": function () {
                     this.api().columns().every(function () {
