@@ -20,7 +20,32 @@
                         },
                         "targets": 0
                     },
-                ]
+                ],
+                "fixedHeader": true,
+                "initComplete": function () {
+                    this.api().columns().every(function () {
+                        if ([3,5].indexOf(this.index()) < 0) return true
+                        var column = this;
+                        var select = $('<select style="width:100%"><option value=""></option></select>')
+                            .appendTo($(column.header()))
+                            .on('click', function (e) {
+                                e.stopPropagation();
+                            })
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
             });
         });
     </script>
