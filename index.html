@@ -45,7 +45,7 @@
               <th>Kode</th>
               <th>Nama Paket</th>
               <th>Kategori</th>
-              <th>Instansi</th>
+              <th>KLDI</th>
               <th>Tahap</th>
               <th>HPS</th>
             </tr>
@@ -72,7 +72,7 @@
       "fixedHeader": true,
       "initComplete": function () {
         this.api().columns().every(function () {
-          if ([3, 5].indexOf(this.index()) < 0) return true
+          if ([3, 4, 5].indexOf(this.index()) < 0) return true
           var column = this;
           var select = $('<select style="width:100%"><option value=""></option></select>')
             .appendTo($(column.header()))
