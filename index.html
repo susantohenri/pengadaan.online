@@ -1,85 +1,115 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="public/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap-datatables.min.css">
-    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="public/css/application.css">
-    <style type="text/css">
-        table>tbody>tr>td:nth-child(1) {
-            white-space: nowrap;
-        }
-    </style>
-    <script type="text/javascript" src="public/js/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="public/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var tbl = $('#pengadaan').DataTable({
-                "ajax": 'lpse.json',
-                "columnDefs": [
-                    {
-                        "render": function (data, type, row) {
-                            return new Date(data).toISOString().split('T')[0]
-                        },
-                        "targets": 0
-                    },
-                ],
-                "order": [[0, "desc"]],
-                "fixedHeader": true,
-                "initComplete": function () {
-                    this.api().columns().every(function () {
-                        if ([3, 5].indexOf(this.index()) < 0) return true
-                        var column = this;
-                        var select = $('<select style="width:100%"><option value=""></option></select>')
-                            .appendTo($(column.header()))
-                            .on('click', function (e) {
-                                e.stopPropagation();
-                            })
-                            .on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
-                            });
-
-                        column.data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>')
-                        });
-                    });
-                }
-            });
-
-            tbl.on('draw.dt', function () {
-                $('tbody tr').each(function () {
-                    let pengumumanlelang = $(this).find('a').attr('href')
-                    let jadwal = pengumumanlelang.replace('pengumumanlelang', 'jadwal')
-                    let tahap = $(this).find('td:nth-child(6)')
-                    tahap.html(`<a href="${jadwal}" target="_blank">${tahap.html()}</a>`)
-                })
-            })
-        });
-    </script>
+  <link rel="stylesheet" type="text/css" href="public/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="public/bootstrap/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap-datatables.min.css">
+  <link rel="stylesheet" type="text/css" href="public/bootstrap/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="public/css/application.css">
+  <style type="text/css">
+    table>tbody>tr>td:nth-child(1) {
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
-<body style="padding: 10px;">
-    <table id="pengadaan" class="display" style="width:100%">
-        <thead>
+<body>
+
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <!-- <li class="active"><a href="./">Home</a></li> -->
+          <!-- <li><a href="">Cara Ikut Tender</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="panel">
+      <div class="panel-body">
+        <table id="pengadaan" class="display" style="width:100%">
+          <thead>
             <tr>
-                <th>Mulai</th>
-                <th>Kode</th>
-                <th>Nama Paket</th>
-                <th>Kategori</th>
-                <th>Instansi</th>
-                <th>Tahap</th>
-                <th>HPS</th>
+              <th>Mulai</th>
+              <th>Kode</th>
+              <th>Nama Paket</th>
+              <th>Kategori</th>
+              <th>Instansi</th>
+              <th>Tahap</th>
+              <th>HPS</th>
             </tr>
-        </thead>
-    </table>
+          </thead>
+        </table>
+      </div>
+      <div class="panel-footer">&nbsp;</div>
+    </div>
+  </div>
+  <script type="text/javascript" src="public/js/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="public/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript">
+    var tbl = $('#pengadaan').DataTable({
+      "ajax": 'lpse.json',
+      "columnDefs": [
+        {
+          "render": function (data, type, row) {
+            return new Date(data).toISOString().split('T')[0]
+          },
+          "targets": 0
+        },
+      ],
+      "order": [[0, "desc"]],
+      "fixedHeader": true,
+      "initComplete": function () {
+        this.api().columns().every(function () {
+          if ([3, 5].indexOf(this.index()) < 0) return true
+          var column = this;
+          var select = $('<select style="width:100%"><option value=""></option></select>')
+            .appendTo($(column.header()))
+            .on('click', function (e) {
+              e.stopPropagation();
+            })
+            .on('change', function () {
+              var val = $.fn.dataTable.util.escapeRegex(
+                $(this).val()
+              );
+
+              column
+                .search(val ? '^' + val + '$' : '', true, false)
+                .draw();
+            });
+
+          column.data().unique().sort().each(function (d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>')
+          });
+        });
+      }
+    });
+
+    tbl.on('draw.dt', function () {
+      $('tbody tr').each(function () {
+        let pengumumanlelang = $(this).find('a').attr('href')
+        let jadwal = pengumumanlelang.replace('pengumumanlelang', 'jadwal')
+        let tahap = $(this).find('td:nth-child(6)')
+        tahap.html(`<a href="${jadwal}" target="_blank">${tahap.html()}</a>`)
+      })
+    })
+
+    window.intergramId = '69237603';
+    window.intergramCustomizations = {
+      titleClosed: 'Komentar, Kritik & Saran',
+      titleOpen: 'Silakan Tinggalkan Pesan',
+      introMessage: 'selamat siang bapak/ibu, terima kasih telah berkunjung',
+      autoResponse: 'terima kasih atas saran & kritiknya, jika membutuhkan diskusi lebih lanjut silakan menghubungi via whatsapp 081901088918',
+      autoNoResponse: 'Mohon maaf, saat ini kami sedang istirahat, silakan tinggalkan pesan. terima kasih',
+      mainColor: "#337ab7", // Can be any css supported color 'red', 'rgb(255,87,34)', etc
+      alwaysUseFloatingButton: false // Use the mobile floating button also on large screens
+    };
+
+  </script>
+  <script id="intergram" type="text/javascript" src="https://www.intergram.xyz/js/widget.js"></script>
 </body>
 
 </html>
