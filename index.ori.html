@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="public/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap-datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="public/bootstrap/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="public/css/application.css">
+    <style type="text/css">
+        table>tbody>tr>td:nth-child(1) {
+            white-space: nowrap;
+        }
+    </style>
+    <script type="text/javascript" src="public/js/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="public/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var tbl = $('#pengadaan').DataTable({
+                "ajax": 'lpse.json',
+                "columnDefs": [
+                    {
+                        "render": function (data, type, row) {
+                            return new Date(data).toISOString().split('T')[0]
+                        },
+                        "targets": 0
+                    },
+                ],
+                "order": [[0, "desc"]],
+                "fixedHeader": true,
+                "initComplete": function () {
+                    this.api().columns().every(function () {
+                        if ([3, 5].indexOf(this.index()) < 0) return true
+                        var column = this;
+                        var select = $('<select style="width:100%"><option value=""></option></select>')
+                            .appendTo($(column.header()))
+                            .on('click', function (e) {
+                                e.stopPropagation();
+                            })
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
+            });
+
+            tbl.on('draw.dt', function () {
+                $('tbody tr').each(function () {
+                    let pengumumanlelang = $(this).find('a').attr('href')
+                    let jadwal = pengumumanlelang.replace('pengumumanlelang', 'jadwal')
+                    let tahap = $(this).find('td:nth-child(6)')
+                    tahap.html(`<a href="${jadwal}" target="_blank">${tahap.html()}</a>`)
+                })
+            })
+        });
+    </script>
+</head>
+
+<body style="padding: 10px;">
+    <table id="pengadaan" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Mulai</th>
+                <th>Kode</th>
+                <th>Nama Paket</th>
+                <th>Kategori</th>
+                <th>Instansi</th>
+                <th>Tahap</th>
+                <th>HPS</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+
+</html>
