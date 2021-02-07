@@ -8,6 +8,7 @@
 
     gtag('config', 'G-JLBH60DGR2');
   </script>
+  <link href="manifest.json" rel="manifest">
 
   <link rel="stylesheet" type="text/css" href="public/css/reset.css">
   <link rel="stylesheet" type="text/css" href="public/bootstrap/css/bootstrap.min.css">
@@ -115,6 +116,14 @@
       mainColor: "#337ab7", // Can be any css supported color 'red', 'rgb(255,87,34)', etc
       alwaysUseFloatingButton: false // Use the mobile floating button also on large screens
     };
+
+    (function () {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service_worker.js').then(function () {
+          console.log('Service Worker Registered');
+        })
+      }
+    })()
 
   </script>
   <script id="intergram" type="text/javascript" src="https://www.intergram.xyz/js/widget.js"></script>
