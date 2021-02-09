@@ -19,7 +19,7 @@ function walkThroughInstansies(url, cb) {
     url = `${url}eproc4`
     nightmare
     .goto(`${url}/lelang`)
-    .wait(`#tbllelang > tbody`)
+    .wait(`#tbllelang > tbody > tr`)
     .then(() => {
         walkThroughPages(1, [], scrapped => {
             filterData(`${url}/lelang`, scrapped, () => {
@@ -179,7 +179,7 @@ function getLocation (obj, cb)
 }
 
 console.time()
-walkThroughInstansies('http://lpse.atrbpn.go.id/', () => {
+walkThroughInstansies(instansi[0], () => {
     console.timeEnd()
     nightmare.end().then()
 })
