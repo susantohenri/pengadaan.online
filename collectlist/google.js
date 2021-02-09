@@ -13,7 +13,7 @@ nightmare
     .click('[type="submit"]')
 
 walkThroughPages('', () => {
-    nightmare.end().then()
+    // nightmare.end().then()
 })
 
 
@@ -25,28 +25,23 @@ function walkThroughPages(prevUrl, cb) {
         .inject('js', 'jquery-3.5.1.slim.min.js')
         .evaluate(() => {
             let cite = []
-            $('cite').each(function () {
-                cite.push($(this).text().split(' ›')[0])
+            $('.g [ping]').each(function () {
+                cite.push($(this).attr('href'))
             })
             return {
-                data: cite.filter((v, i, a) => a.indexOf(v) === i),
+                data: cite,
                 url: window.location.href
             }
         })
         .then(result => {
             let { data, url } = result
-            let notLPSE = data.filter(url => {
-                return url.indexOf('lpse') < 0
-            })
-            if (notLPSE.length > 5) cb()
-            else {
-                for (url of data) console.log(url)
-                nightmare
-                    .click('#pnnext')
-                    .then(() => {
-                        walkThroughPages(url, cb)
-                    })
-            }
+            data = data.filter(url => { return url.indexOf('google') < 0 })
+            for (url of data) console.log(url)
+            nightmare
+                .click('#pnnext')
+                .then(() => {
+                    walkThroughPages(url, cb)
+                })
         })
         .catch(e => console.error)
 }
