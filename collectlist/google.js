@@ -9,7 +9,7 @@ const nightmare = Nightmare({
 nightmare
     .goto('https://www.google.com/')
     .wait('[name="q"]')
-    .type('[name="q"]', 'lpse')
+    .type('[name="q"]', 'inurl:lpse')
     .click('[type="submit"]')
 
 walkThroughPages('', () => {
