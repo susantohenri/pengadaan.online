@@ -5,7 +5,7 @@ const nightmare = Nightmare({
         images: false
     }
 })
-var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro', 'pengadaanku', 'cv.diannafiriadikarya', 'datalelang.id', 'terraland_officechair', 'wensora867', 'bpbj_kutaibarat', 'samijayamitrautama', 'koranbaliexpress', 'seminar.land', 'tenderonlineid', 'lapakmesinindo', 'iwan.tms', 'unipro_topi', 'caspercomputerboyolali', 'prawira_jaya_kahutama', 'ratnafjr96', 'mamika_home']
+var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro', 'pengadaanku', 'cv.diannafiriadikarya', 'datalelang.id', 'terraland_officechair', 'wensora867', 'bpbj_kutaibarat', 'samijayamitrautama', 'koranbaliexpress', 'seminar.land', 'tenderonlineid', 'lapakmesinindo', 'iwan.tms', 'unipro_topi', 'caspercomputerboyolali', 'prawira_jaya_kahutama', 'ratnafjr96', 'mamika_home', 'pmkonsulindo', 'emeraldapparel.id']
 const comment = `permisi kak, mohon izin berbagi info pengadaan terbaru seluruh Indonesia gratis, cek linknya di bio kita. terima kasih`
 
 nightmare
@@ -20,13 +20,18 @@ nightmare
     .click('[href^="/explore/tags/"]')
     .wait('h1')
     .inject('js', 'jquery-3.5.1.slim.min.js')
+    .url()
     .click('[tabindex="0"][href^="/p/"]')
-    .then(walkThroughModal)
+    .then(url => {
+        walkThroughModal(url)
+    })
 
 
-function walkThroughModal() {
+function walkThroughModal(prevURL) {
     nightmare
-        .wait(2000)
+        .wait(prevURL => {
+            return window.location.href !== prevURL
+        }, prevURL)
         .wait('body > div > div > div > article > div > div > a > time')
         .evaluate(() => {
             let time = $('body > div > div > div > article > div > div > a > time').html()
@@ -45,8 +50,11 @@ function walkThroughModal() {
                         console.log(data.username)
                         commented_accounts.push(username)
                         nightmare
+                            .url()
                             .click('.coreSpriteRightPaginationArrow')
-                            .then(walkThroughModal)
+                            .then(url => {
+                                walkThroughModal(url)
+                            })
                     })
             } else {
                 nightmare
