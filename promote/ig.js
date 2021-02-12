@@ -5,7 +5,7 @@ const nightmare = Nightmare({
         images: false
     }
 })
-var commented_accounts = ['lpkntraining']
+var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro']
 const comment = `permisi kak, mohon izin berbagi info pengadaan terbaru seluruh Indonesia gratis, cek linknya di bio kita. terima kasih`
 
 nightmare
@@ -35,7 +35,7 @@ function walkThroughModal() {
         })
         .then(data => {
             let { time, username } = data
-            if (time.indexOf('hours ago') > -1 && commented_accounts.indexOf(username) < 0) {
+            if ((time.indexOf('hours ago') > -1 || time.indexOf('days ago') > -1) && commented_accounts.indexOf(username) < 0) {
                 nightmare
                     .wait('body > div > div > div > article > div > section > div > form > textarea')
                     .type('body > div > div > div > article > div > section > div > form > textarea', comment)
