@@ -5,7 +5,7 @@ const nightmare = Nightmare({
         images: false
     }
 })
-var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro']
+var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro', 'pengadaanku', 'cv.diannafiriadikarya', 'datalelang.id', 'terraland_officechair', 'wensora867', 'bpbj_kutaibarat', 'samijayamitrautama', 'koranbaliexpress', 'seminar.land', 'tenderonlineid', 'lapakmesinindo', 'iwan.tms', 'unipro_topi', 'caspercomputerboyolali', 'prawira_jaya_kahutama', 'ratnafjr96', 'mamika_home']
 const comment = `permisi kak, mohon izin berbagi info pengadaan terbaru seluruh Indonesia gratis, cek linknya di bio kita. terima kasih`
 
 nightmare
