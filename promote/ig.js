@@ -5,7 +5,7 @@ const nightmare = Nightmare({
         images: false
     }
 })
-var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro', 'pengadaanku', 'cv.diannafiriadikarya', 'datalelang.id', 'terraland_officechair', 'wensora867', 'bpbj_kutaibarat', 'samijayamitrautama', 'koranbaliexpress', 'seminar.land', 'tenderonlineid', 'lapakmesinindo', 'iwan.tms', 'unipro_topi', 'caspercomputerboyolali', 'prawira_jaya_kahutama', 'ratnafjr96', 'mamika_home', 'pmkonsulindo', 'emeraldapparel.id', 'kppnmajene', 'rackbesijabar']
+var commented_accounts = ['lpkntraining', 'ulfayul88', 'patralearningcenter', 'pelatihan.lpkn', 'mmustika58', 'gitaslvi1', 'klikmro', 'pengadaanku', 'cv.diannafiriadikarya', 'datalelang.id', 'terraland_officechair', 'wensora867', 'bpbj_kutaibarat', 'samijayamitrautama', 'koranbaliexpress', 'seminar.land', 'tenderonlineid', 'lapakmesinindo', 'iwan.tms', 'unipro_topi', 'caspercomputerboyolali', 'prawira_jaya_kahutama', 'ratnafjr96', 'mamika_home', 'pmkonsulindo', 'emeraldapparel.id', 'kppnmajene', 'rackbesijabar', 'serviceacmalang_pasangacmalang', 'kdjindonesia', 'khosasindo_pratama', 'serviceac_purwakarta', 'indrawaty79', 'humaskotamojokerto', 'kurniasih_tulipwarecimahi', 'birolppbmn_kemenhub', 'go_rent_scaffolding', 'fatmo_advertising', 'dp3akjatim.official']
 const comment = `permisi kak, mohon izin berbagi info pengadaan terbaru seluruh Indonesia gratis, cek linknya di bio kita. terima kasih`
 
 nightmare

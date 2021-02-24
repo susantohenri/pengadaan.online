@@ -126,6 +126,20 @@ function filterData (url, scrapped, cb)
                 end = $(this).find('td:nth-child(3)').html()
             }
         })
+
+        if (start === '' && end === '')
+        {
+            startPlace = '#main > div > table > tbody > tr:nth-child(2) > td:nth-child(3)'
+            if ($(startPlace).length > 0) start = $(startPlace).html()
+            $('#main > div > table > tbody > tr').not(':eq(0)').each(function () {
+                if (end !== '') return false
+                if ($(this).find('td:nth-child(2)').html().indexOf('Evaluasi') > -1)
+                {
+                    end = $(this).find('td:nth-child(3)').html()
+                }
+            })
+        }
+
         return {start, end}
     })
     .then(result => {
