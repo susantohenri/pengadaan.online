@@ -1,7 +1,7 @@
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({
     // gotoTimeout: 10000,
-    // waitTimeout: 10000,
+    waitTimeout: 5000,
     show: true,
     webPreferences: {
         images: false,
@@ -87,10 +87,13 @@ function walkThroughPages(page, records, cb) {
                 .then(() => {
                     walkThroughPages(page + 1, records, cb)
                 })
+                .catch(e => {
+                    walkThroughPages(page + 1, records, cb)
+                })
             }
         })
         .catch(e => {
-            console.error('----------- fail scraping!', e)
+            // console.error('----------- fail scraping!', e)
             walkThroughPages(page + 1, records, cb)
         })
 }
