@@ -149,7 +149,7 @@ function filterData (url, scrapped, cb)
         let  {start, end} = result
         // obj.start = start
         // obj.end = end
-        let endtime = new Date(end)
+        let endtime = buildEndtime(end)
         let now = new Date()
         if (now < endtime)
         {
@@ -193,6 +193,33 @@ function getLocation (obj, cb)
             obj.push('')
             cb (obj)
         })
+}
+
+function buildEndtime (end)
+{
+    let bulan = end.split(' ')[1]
+    let month = bulanToMonth (bulan)
+    end = end.replace(bulan, month)
+    return new Date(end)
+}
+
+function bulanToMonth (bulan)
+{
+    switch (bulan)
+    {
+        case 'Januari': return 'January' ;break
+        case 'Februari': return 'February' ;break
+        case 'Maret': return 'March' ;break
+        case 'April': return 'April' ;break
+        case 'Mei': return 'May' ;break
+        case 'Juni': return 'June' ;break
+        case 'Juli': return 'July' ;break
+        case 'Agustus': return 'August' ;break
+        case 'September': return 'September' ;break
+        case 'Oktober': return 'October' ;break
+        case 'November': return 'November' ;break
+        case 'Desember': return 'December' ;break
+    }
 }
 
 console.time()
